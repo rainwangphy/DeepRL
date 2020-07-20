@@ -483,14 +483,14 @@ def td3_continuous(**kwargs):
 
 
 if __name__ == '__main__':
-    mkdir('log_1')
-    mkdir('tf_log_1')
+    mkdir('log')
+    mkdir('tf_log')
     set_one_thread()
     random_seed()
     select_device(-1)
     # select_device(0)
 
-    # game = 'BreakoutNoFrameskip-v4'
+    # game = 'CartPole-v0'
     # dqn_feature(game=game)
     # quantile_regression_dqn_feature(game=game)
     # categorical_dqn_feature(game=game)
@@ -508,8 +508,8 @@ if __name__ == '__main__':
 
     game = 'BreakoutNoFrameskip-v4'
     # dqn_pixel(game=game)
-    quantile_regression_dqn_pixel(game=game)
-    # categorical_dqn_pixel(game=game)
+    # quantile_regression_dqn_pixel(game=game)
+    categorical_dqn_pixel(game=game)
     # a2c_pixel(game=game)
     # n_step_dqn_pixel(game=game)
     # option_critic_pixel(game=game)
