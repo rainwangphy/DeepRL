@@ -14,8 +14,9 @@ from gym.spaces.discrete import Discrete
 from baselines.common.atari_wrappers import make_atari, wrap_deepmind
 from baselines.common.atari_wrappers import FrameStack as FrameStack_
 from baselines.common.vec_env.subproc_vec_env import SubprocVecEnv, VecEnv
+# from stable_baselines.common.vec_env.dummy_vec_env import DummyVecEnv
 
-from ..utils import *
+from deep_rl.utils import *
 
 try:
     import roboschool
@@ -168,6 +169,7 @@ class Task:
         else:
             Wrapper = SubprocVecEnv
         self.env = Wrapper(envs)
+        # self.env = envs
         self.name = name
         self.observation_space = self.env.observation_space
         self.state_dim = int(np.prod(self.env.observation_space.shape))

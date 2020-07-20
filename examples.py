@@ -490,7 +490,7 @@ if __name__ == '__main__':
     select_device(-1)
     # select_device(0)
 
-    game = 'CartPole-v0'
+    # game = 'CartPole-v0'
     # dqn_feature(game=game)
     # quantile_regression_dqn_feature(game=game)
     # categorical_dqn_feature(game=game)
@@ -500,15 +500,15 @@ if __name__ == '__main__':
     # ppo_feature(game=game)
 
     # game = 'HalfCheetah-v2'
-    game = 'Hopper-v2'
+    # game = 'Hopper-v2'
     # a2c_continuous(game=game)
     # ppo_continuous(game=game)
     # ddpg_continuous(game=game)
-    td3_continuous(game=game)
+    # td3_continuous(game=game)
 
     game = 'BreakoutNoFrameskip-v4'
     # dqn_pixel(game=game)
-    # quantile_regression_dqn_pixel(game=game)
+    quantile_regression_dqn_pixel(game=game)
     # categorical_dqn_pixel(game=game)
     # a2c_pixel(game=game)
     # n_step_dqn_pixel(game=game)
