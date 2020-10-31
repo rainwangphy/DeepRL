@@ -2,6 +2,7 @@ import numpy as np
 import tensorflow as tf
 from gym.spaces import Discrete, Box, MultiDiscrete
 
+
 def observation_placeholder(ob_space, batch_size=None, name='Ob'):
     '''
     Create placeholder to feed observations into of the size appropriate to the observation space
@@ -40,6 +41,7 @@ def observation_input(ob_space, batch_size=None, name='Ob'):
     placeholder = observation_placeholder(ob_space, batch_size, name)
     return placeholder, encode_observation(ob_space, placeholder)
 
+
 def encode_observation(ob_space, placeholder):
     '''
     Encode input in the way that is appropriate to the observation space
@@ -57,8 +59,8 @@ def encode_observation(ob_space, placeholder):
         return tf.to_float(placeholder)
     elif isinstance(ob_space, MultiDiscrete):
         placeholder = tf.cast(placeholder, tf.int32)
-        one_hots = [tf.to_float(tf.one_hot(placeholder[..., i], ob_space.nvec[i])) for i in range(placeholder.shape[-1])]
+        one_hots = [tf.to_float(tf.one_hot(placeholder[..., i], ob_space.nvec[i])) for i in
+                    range(placeholder.shape[-1])]
         return tf.concat(one_hots, axis=-1)
     else:
         raise NotImplementedError
-

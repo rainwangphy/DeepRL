@@ -82,6 +82,7 @@ def install_mpi_excepthook():
         sys.stdout.flush()
         sys.stderr.flush()
         MPI.COMM_WORLD.Abort()
+
     sys.excepthook = new_hook
 
 
@@ -100,8 +101,8 @@ def mpi_fork(n, extra_mpi_args=[]):
         )
         # "-bind-to core" is crucial for good performance
         args = ["mpirun", "-np", str(n)] + \
-            extra_mpi_args + \
-            [sys.executable]
+               extra_mpi_args + \
+               [sys.executable]
 
         args += sys.argv
         subprocess.check_call(args, env=env)

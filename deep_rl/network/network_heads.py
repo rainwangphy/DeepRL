@@ -32,8 +32,8 @@ class DuelingNet(nn.Module, BaseNet):
     def forward(self, x, to_numpy=False):
         phi = self.body(tensor(x))
         value = self.fc_value(phi)
-        advantange = self.fc_advantage(phi)
-        q = value.expand_as(advantange) + (advantange - advantange.mean(1, keepdim=True).expand_as(advantange))
+        advantage = self.fc_advantage(phi)
+        q = value.expand_as(advantage) + (advantage - advantage.mean(1, keepdim=True).expand_as(advantage))
         return q
 
 
@@ -117,7 +117,7 @@ class DeterministicActorCriticNet(nn.Module, BaseNet):
         self.actor_params = list(self.actor_body.parameters()) + list(self.fc_action.parameters())
         self.critic_params = list(self.critic_body.parameters()) + list(self.fc_critic.parameters())
         self.phi_params = list(self.phi_body.parameters())
-        
+
         self.actor_opt = actor_opt_fn(self.actor_params + self.phi_params)
         self.critic_opt = critic_opt_fn(self.critic_params + self.phi_params)
         self.to(Config.DEVICE)
@@ -158,7 +158,7 @@ class GaussianActorCriticNet(nn.Module, BaseNet):
         self.actor_params = list(self.actor_body.parameters()) + list(self.fc_action.parameters())
         self.critic_params = list(self.critic_body.parameters()) + list(self.fc_critic.parameters())
         self.phi_params = list(self.phi_body.parameters())
-        
+
         self.std = nn.Parameter(torch.zeros(action_dim))
         self.to(Config.DEVICE)
 
@@ -201,7 +201,7 @@ class CategoricalActorCriticNet(nn.Module, BaseNet):
         self.actor_params = list(self.actor_body.parameters()) + list(self.fc_action.parameters())
         self.critic_params = list(self.critic_body.parameters()) + list(self.fc_critic.parameters())
         self.phi_params = list(self.phi_body.parameters())
-        
+
         self.to(Config.DEVICE)
 
     def forward(self, obs, action=None):
@@ -240,7 +240,7 @@ class TD3Net(nn.Module, BaseNet):
         self.fc_critic_2 = layer_init(nn.Linear(self.critic_body_2.feature_dim, 1), 1e-3)
 
         self.actor_params = list(self.actor_body.parameters()) + list(self.fc_action.parameters())
-        self.critic_params = list(self.critic_body_1.parameters()) + list(self.fc_critic_1.parameters()) +\
+        self.critic_params = list(self.critic_body_1.parameters()) + list(self.fc_critic_1.parameters()) + \
                              list(self.critic_body_2.parameters()) + list(self.fc_critic_2.parameters())
 
         self.actor_opt = actor_opt_fn(self.actor_params)
@@ -258,3 +258,18 @@ class TD3Net(nn.Module, BaseNet):
         q_1 = self.fc_critic_1(self.critic_body_1(x))
         q_2 = self.fc_critic_2(self.critic_body_2(x))
         return q_1, q_2
+
+
+####--------------Added for the DMoG methods--------------------------####
+
+
+class DMoGQNet(nn.Module, BaseNet):
+
+    def __init__(self, action_dim):
+        super(DMoGQNet, self).__init__()
+
+
+class DMoGPGNet(nn.Module, BaseNet):
+
+    def __init__(self, action_dim):
+        super(DMoGPGNet, self).__init__()

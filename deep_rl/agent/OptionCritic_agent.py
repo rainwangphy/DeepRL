@@ -98,7 +98,8 @@ class OptionCriticAgent(BaseAgent):
             storage.ret[i] = ret
             storage.adv[i] = adv
 
-            v = storage.q[i].max(dim=-1, keepdim=True)[0] * (1 - storage.eps[i]) + storage.q[i].mean(-1).unsqueeze(-1) * storage.eps[i]
+            v = storage.q[i].max(dim=-1, keepdim=True)[0] * (1 - storage.eps[i]) + storage.q[i].mean(-1).unsqueeze(-1) * \
+                storage.eps[i]
             q = storage.q[i].gather(1, storage.prev_o[i])
             storage.beta_adv[i] = q - v + config.termination_regularizer
 

@@ -42,6 +42,7 @@ class AcerCnnPolicy(object):
         self.out = out
         self.act = act
 
+
 class AcerLstmPolicy(object):
 
     def __init__(self, sess, ob_space, ac_space, nenv, nsteps, nstack, reuse=False, nlstm=256):
@@ -50,8 +51,8 @@ class AcerLstmPolicy(object):
         ob_shape = (nbatch, nh, nw, nc * nstack)
         nact = ac_space.n
         X = tf.placeholder(tf.uint8, ob_shape)  # obs
-        M = tf.placeholder(tf.float32, [nbatch]) #mask (done t-1)
-        S = tf.placeholder(tf.float32, [nenv, nlstm*2]) #states
+        M = tf.placeholder(tf.float32, [nbatch])  # mask (done t-1)
+        S = tf.placeholder(tf.float32, [nenv, nlstm * 2])  # states
         with tf.variable_scope("model", reuse=reuse):
             h = nature_cnn(X)
 
@@ -66,7 +67,7 @@ class AcerLstmPolicy(object):
             q = fc(h5, 'q', nact)
 
         a = sample(pi_logits)  # could change this to use self.pi instead
-        self.initial_state = np.zeros((nenv, nlstm*2), dtype=np.float32)
+        self.initial_state = np.zeros((nenv, nlstm * 2), dtype=np.float32)
         self.X = X
         self.M = M
         self.S = S

@@ -1,6 +1,8 @@
 import pytest
+
 try:
     import mujoco_py
+
     _mujoco_present = True
 except BaseException:
     mujoco_py = None
@@ -40,9 +42,4 @@ def test_lstm_example():
             if done:
                 break
 
-
         assert step_counter > 5
-
-
-
-

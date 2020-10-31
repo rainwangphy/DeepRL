@@ -8,6 +8,7 @@ from baselines.common.tf_util import make_session
 
 algos = ['a2c', 'acer', 'acktr', 'deepq', 'ppo2', 'trpo_mpi']
 
+
 @pytest.mark.parametrize('algo', algos)
 def test_env_after_learn(algo):
     def make_env():

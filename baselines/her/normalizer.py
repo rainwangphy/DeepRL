@@ -73,12 +73,12 @@ class Normalizer:
         if clip_range is None:
             clip_range = self.default_clip_range
         mean = reshape_for_broadcasting(self.mean, v)
-        std = reshape_for_broadcasting(self.std,  v)
+        std = reshape_for_broadcasting(self.std, v)
         return tf.clip_by_value((v - mean) / std, -clip_range, clip_range)
 
     def denormalize(self, v):
         mean = reshape_for_broadcasting(self.mean, v)
-        std = reshape_for_broadcasting(self.std,  v)
+        std = reshape_for_broadcasting(self.std, v)
         return mean + v * std
 
     def _mpi_average(self, x):

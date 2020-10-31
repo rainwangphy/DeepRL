@@ -466,7 +466,7 @@ def td3_continuous(**kwargs):
         config.action_dim,
         actor_body_fn=lambda: FCBody(config.state_dim, (400, 300), gate=F.relu),
         critic_body_fn=lambda: FCBody(
-            config.state_dim+config.action_dim, (400, 300), gate=F.relu),
+            config.state_dim + config.action_dim, (400, 300), gate=F.relu),
         actor_opt_fn=lambda params: torch.optim.Adam(params, lr=1e-3),
         critic_opt_fn=lambda params: torch.optim.Adam(params, lr=1e-3))
 

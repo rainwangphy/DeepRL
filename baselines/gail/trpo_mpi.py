@@ -21,7 +21,6 @@ from baselines.gail.statistics import stats
 
 
 def traj_segment_generator(pi, env, reward_giver, horizon, stochastic):
-
     # Initialize state variables
     t = 0
     ac = env.action_space.sample()
@@ -96,8 +95,8 @@ def add_vtarg_and_adv(seg, gamma, lam):
     rew = seg["rew"]
     lastgaelam = 0
     for t in reversed(range(T)):
-        nonterminal = 1-new[t+1]
-        delta = rew[t] + gamma * vpred[t+1] * nonterminal - vpred[t]
+        nonterminal = 1 - new[t + 1]
+        delta = rew[t] + gamma * vpred[t + 1] * nonterminal - vpred[t]
         gaelam[t] = lastgaelam = delta + gamma * lam * nonterminal * lastgaelam
     seg["tdlamret"] = seg["adv"] + seg["vpred"]
 
@@ -112,7 +111,6 @@ def learn(env, policy_func, reward_giver, expert_dataset, rank,
           max_timesteps=0, max_episodes=0, max_iters=0,
           callback=None
           ):
-
     nworkers = MPI.COMM_WORLD.Get_size()
     rank = MPI.COMM_WORLD.Get_rank()
     np.set_printoptions(precision=3)
@@ -161,13 +159,14 @@ def learn(env, policy_func, reward_giver, expert_dataset, rank,
     tangents = []
     for shape in shapes:
         sz = U.intprod(shape)
-        tangents.append(tf.reshape(flat_tangent[start:start+sz], shape))
+        tangents.append(tf.reshape(flat_tangent[start:start + sz], shape))
         start += sz
-    gvp = tf.add_n([tf.reduce_sum(g*tangent) for (g, tangent) in zipsame(klgrads, tangents)])  # pylint: disable=E1111
+    gvp = tf.add_n([tf.reduce_sum(g * tangent) for (g, tangent) in zipsame(klgrads, tangents)])  # pylint: disable=E1111
     fvp = U.flatgrad(gvp, var_list)
 
     assign_old_eq_new = U.function([], [], updates=[tf.assign(oldv, newv)
-                                                    for (oldv, newv) in zipsame(oldpi.get_variables(), pi.get_variables())])
+                                                    for (oldv, newv) in
+                                                    zipsame(oldpi.get_variables(), pi.get_variables())])
     compute_losses = U.function([ob, ac, atarg], losses)
     compute_lossandgrad = U.function([ob, ac, atarg], losses + [U.flatgrad(optimgain, var_list)])
     compute_fvp = U.function([flat_tangent, ob, ac, atarg], fvp)
@@ -240,6 +239,7 @@ def learn(env, policy_func, reward_giver, expert_dataset, rank,
 
         def fisher_vector_product(p):
             return allmean(compute_fvp(p, *fvpargs)) + cg_damping * p
+
         # ------------------ Update G ------------------
         logger.log("Optimizing Policy...")
         for _ in range(g_step):
@@ -267,7 +267,7 @@ def learn(env, policy_func, reward_giver, expert_dataset, rank,
                 with timed("cg"):
                     stepdir = cg(fisher_vector_product, g, cg_iters=cg_iters, verbose=rank == 0)
                 assert np.isfinite(stepdir).all()
-                shs = .5*stepdir.dot(fisher_vector_product(stepdir))
+                shs = .5 * stepdir.dot(fisher_vector_product(stepdir))
                 lm = np.sqrt(shs / max_kl)
                 # logger.log("lagrange multiplier:", lm, "gnorm:", np.linalg.norm(g))
                 fullstep = stepdir / lm
