@@ -2,6 +2,10 @@ from deep_rl import *
 
 from examples import quantile_regression_dqn_feature
 
+import gym
+
+gym.logger.set_level(40)
+
 if __name__ == '__main__':
     mkdir('log')
     mkdir('tf_log')
