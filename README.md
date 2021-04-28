@@ -15,6 +15,7 @@ Implemented algorithms:
 * The Option-Critic Architecture (OC)
 * Twined Delayed DDPG (TD3)
 * [DAC/Geoff-PAC/QUOTA/ACE](#code-of-my-papers)
+* TODO: **SAC** definitely should be added
 
 Asynchronous algorithms (e.g., A3C) can be found in [v0.1](https://github.com/ShangtongZhang/DeepRL/releases/tag/v0.1).
 Action Conditional Video Prediction can be found in [v0.4](https://github.com/ShangtongZhang/DeepRL/releases/tag/v0.4).

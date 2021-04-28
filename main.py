@@ -1,17 +1,20 @@
 from deep_rl import *
 
-from examples import quantile_regression_dqn_feature
+from examples import quantile_regression_dqn_feature, quantile_regression_dqn_pixel
 
 import gym
+import os
 
 gym.logger.set_level(40)
+
+# os.environ["CUDA_VISIBLE_DEVICES"] = "1, 2"
 
 if __name__ == '__main__':
     mkdir('log')
     mkdir('tf_log')
     set_one_thread()
     random_seed()
-    select_device(-1)
+    select_device(3)
 
-    game = 'CartPole-v0'
-    quantile_regression_dqn_feature(game=game)
+    game = 'BreakoutNoFrameskip-v4'
+    quantile_regression_dqn_pixel(game=game)
